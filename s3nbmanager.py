@@ -80,6 +80,15 @@ class S3NotebookManager(NotebookManager):
 
         self.mapping[notebook_id] = new_name
         return notebook_id
+
+    def delete_notebook(self, notebook_id):
+        """
+        Delete a notebook by removing the S3 key
+        """
+        delete = self.bucket.delete_key(self.s3_prefix + notebook_id)
+        del self.mapping[notebook_id]
+
+
     
     def log_info(self):
         self.log.info("Serving notebooks from s3. bucket name: %s" % self.aws_bucket)
